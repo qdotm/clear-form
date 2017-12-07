@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="contact form example">
+    <title>De l'Art en Société</title>
+
+    <!-- CSS import -->
+
+    <link rel="stylesheet" href="./assets/style.css">
+
+    <!-- <script src="https://unpkg.com/vue@2.5.9/dist/vue.min.js"></script> -->
+    <script src="https://unpkg.com/vue@2.5.9/dist/vue.js"></script>
+    <script src="https://nightcatsama.github.io/vue-slider-component/dist/index.js"></script>
+
+    <!-- Include after Vue -->
+    <!-- Local files -->
+    <script src="./assets/vue-simple-progress.min.js"></script>
+
+    <!-- From CDN -->
+    <!-- <script src="https://unpkg.com/vue-scrollview"></script> -->
+
+</head>
+
+<body>
+    <div id="app">
+
+        <vue-simple-progress size="tiny" :val="progress"></vue-simple-progress>
+
+        <div class="full">
+
+            <!-- Illustrations + encarts (disable on mobile ?) -->
+
+            <section name="illustrations">
+
+                <div class="box-1" v-bind:class="{ active: i == 1 }">
+                    <img src="./assets/img/cloud.jpg" style="max-width: 100%;">
+                    <div class="legende">Ana Rewakowicz - Green line project (2006)</div>
+                </div>
+
+                <div class="box-2" v-bind:class="{ active: i == 2 }">
+                    <img src="./assets/img/lehanneur.png" style="max-width: 100%;">
+                </div>
+
+                <div class="box-3" v-bind:class="{ active: i == 3 }">
+                    <img src="./assets/img/smogfree.jpg" style="max-width: 100%;">
+                </div>
+
+            </section>
+
+            <!-- Questions - depends on user type -->
+
+            <section name="questions">
+
+                <transition name="fade" mode="out-in">
+
+                    <!-- Slide - home -->
+
+                    <div class="itr-wrapper" v-if="i == 0" key="intro">
+                        <span>10</span> questions
+                        <br>sur l'art
+                        <br>en
+                        <span>société</span>
+                    </div>
+
+                    <!-- Slide - intro -->
+
+                    <!-- <div style="width:200px" v-if="i == 0" key="intro">
+                        <vue-slider v-model="q4" v-bind="sliderOptions"></vue-slider>
+                        <h1>{{ q4 }}</h1>
+                    </div> -->
+
+                    <div class="qst-wrapper" v-if="i == 1" key="q1">
+                        <label class="label">Vous êtes</label>
+                        <div class="control">
+                            <input type="radio" id="1" value="entreprise" v-model="q1">
+                            <label for="1">une entreprise</label>
+                            <br>
+                            <input type="radio" id="2" value="particulier" v-model="q1">
+                            <label for="2">un particulier</label>
+                        </div>
+                    </div>
+
+                    <!-- Parcours entreprises -->
+
+                    <div class="qst-wrapper" v-if="i == 2 && q1 == 'entreprise'" key="q2">
+                        <label class="label">Quel est votre secteur d’activité ?</label>
+                        <div class="control">
+                            <input type="radio" id="1" value="commerce" v-model="entreprise.q2">
+                            <label for="1">Commerce</label>
+                            <br>
+                            <input type="radio" id="2" value="construction" v-model="entreprise.q2">
+                            <label for="2">Construction</label>
+                            <br>
+                            <input type="radio" id="3" value="industrie" v-model="entreprise.q2">
+                            <label for="3">Industrie</label>
+                            <br>
+                            <input type="radio" id="4" value="services" v-model="entreprise.q2">
+                            <label for="4">Services</label>
+                        </div>
+                    </div>
+
+                    <div class="qst-wrapper" v-if="i == 3 && q1 == 'entreprise'" key="q3">
+                        <label class="label">Quelle est la taille de votre entreprise ?</label>
+                        <div class="control">
+
+                        </div>
+                    </div>
+
+                    <div class="qst-wrapper" v-if="i == 4 && q1 == 'entreprise'" key="q4">
+                        <label class="label">Menez-vous déjà des actions de mécénat culturel ?</label>
+                        <div class="control">
+                            <input type="radio" id="1" value="oui" v-model="entreprise.q4">
+                            <label for="1">oui</label>
+                            <br>
+                            <input type="radio" id="2" value="non" v-model="entreprise.q4">
+                            <label for="2">non</label>
+                        </div>
+                    </div>
+
+                    <!-- Parcours entreprises / pas de mécénat -->
+
+                    <div class="qst-wrapper" v-if="i == 5 && q1 == 'entreprise' && entreprise.q4 =='non'" key="q5">
+                        <label class="label">Vous seriez prêts à soutenir des projets artistiques</label>
+                        <div class="control">
+                            <input type="checkbox" id="1" value="entreprise" v-model="entreprise.q5">
+                            <label for="1">au sein de votre entreprise</label>
+                            <br>
+                            <input type="checkbox" id="2" value="espace public" v-model="entreprise.q5">
+                            <label for="2">dans l’espace public</label>
+                            <br>
+                            <input type="checkbox" id="3" value="institutions" v-model="entreprise.q5">
+                            <label for="3">au sein d'institutions culturelles</label>
+                            <br>
+                            <input type="checkbox" id="4" value="aucun" v-model="entreprise.q5">
+                            <label for="4">aucun</label>
+                        </div>
+                    </div>
+
+                    <div class="qst-wrapper" v-if="i == 6 && q1 == 'entreprise' && entreprise.q4 =='non'" key="q6">
+                        <label class="label">Quelles contreparties souhaiteriez-vous obtenir ?</label>
+                        <div class="control">
+                            <textarea class="input" type="text" v-model="entreprise.q6" placeholder="cf. art & mondes du travail" autofocus></textarea>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="qst-wrapper" v-if="i == 7 && q1 == 'entreprise' && entreprise.q4 =='non'" key="q7">
+                        <label class="label">Quel budget annuel pouriez-vous engager ?</label>
+                        <div class="control">
+
+                        </div>
+                    </div>
+
+                    <div class="qst-wrapper" v-if="i == 8 && q1 == 'entreprise' && entreprise.q4 =='non'" key="q8">
+                        <label class="label">Seriez-vous prêts à faire du mécénat participatif aux côtés de citoyens ou d’autres entreprises ?</label>
+                        <div class="control">
+                            <input class="input" type="text" v-model="entreprise.q6" placeholder="votre email" autofocus>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="qst-wrapper" v-if="i == 9 && q1 == 'entreprise' && entreprise.q4 =='non'" key="q9">
+                        <label class="label">Vous pourriez mettre à disposition</label>
+                        <div class="control">
+                            <input class="input" type="text" v-model="entreprise.q6" placeholder="votre email" autofocus>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="qst-wrapper" v-if="i == 10 && q1 == 'entreprise' && entreprise.q4 =='non'" key="q10">
+                        <label class="label">Quelles contreparties souhaiteriez-vous obtenir ?</label>
+                        <div class="control">
+                            <textarea class="input" type="text" v-model="entreprise.q6" placeholder="cf. art et monde du travail" autofocus></textarea>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Parcours entreprises / mécénat -->
+
+                    <div class="qst-wrapper" v-if="i == 5 && q1 == 'entreprise' && entreprise.q4 =='oui'" key="q5">
+                        <label class="label">mécénat !</label>
+                        <div class="control">
+                            <input type="radio" id="1" value="oui" v-model="entreprise.q4">
+                            <label for="1">oui</label>
+                            <br>
+                            <input type="radio" id="2" value="non" v-model="entreprise.q4">
+                            <label for="2">non</label>
+                        </div>
+                    </div>
+
+                    <!-- Parcours particuliers -->
+
+                    <div class="qst-wrapper" v-if="i == 2 && q1 == 'particulier'" key="q2">
+                        <label class="label">Vous habitez en zone</label>
+                        <div class="control">
+                            <input type="radio" id="1" value="urbaine" v-model="particulier.q2">
+                            <label for="1">urbaine</label>
+                            <br>
+                            <input type="radio" id="2" value="rurale" v-model="particulier.q2">
+                            <label for="2">rurale</label>
+                        </div>
+                    </div>
+
+                    <div class="qst-wrapper" v-if="i == 3 && q1 == 'particulier'" key="q3">
+                        <label class="label">Quels sont les lieux de vos activités culturelles ?</label>
+                        <div class="control">
+                            <input type="checkbox" id="1" value="bibliotheque" v-model="particulier.q3">
+                            <label for="1">bibliothèques</label>
+                            <br>
+                            <input type="checkbox" id="2" value="espace public" v-model="particulier.q3">
+                            <label for="2">dans l’espace public</label>
+                            <br>
+                            <input type="checkbox" id="3" value="institutions" v-model="particulier.q3">
+                            <label for="3">au sein d'institutions culturelles</label>
+                            <br>
+                            <input type="checkbox" id="4" value="aucun" v-model="particulier.q3">
+                            <label for="4">aucun</label>
+                        </div>
+                    </div>
+
+                    <div class="qst-wrapper" v-if="i == 4 && q1 == 'particulier'" key="q4">
+                        <label class="label">Avez-vous déjà participé à des actions de mécénat culturel ?</label>
+                        <div class="control">
+                            <input type="radio" id="1" value="urbaine" v-model="particulier.q4">
+                            <label for="1">oui</label>
+                            <br>
+                            <input type="radio" id="2" value="rurale" v-model="particulier.q4">
+                            <label for="2">non</label>
+                        </div>
+                    </div>
+
+                    <!-- Question finale -->
+
+                    <!-- <div class="qst-wrapper" v-if="i == 3" key="q3">
+                        <label class="label">Souhaitez-vous être tenu au courant des résultats de l'étude ?</label>
+                        <div class="control">
+                            <input type="radio" id="1" value="oui" v-model="q3">
+                            <label for="1">Oui</label>
+                            <br>
+                            <input type="radio" id="2" value="non" v-model="q3">
+                            <label for="2">Non merci</label>
+                        </div>
+                    </div> -->
+
+                    <!-- Si email, sinon popup -->
+
+                    <!-- <div class="qst-wrapper" v-if="i == 4 && q3 == 'oui'" key="q3">
+                        <label class="label">À quelle adresse vous écrire ?</label>
+                        <div class="control">
+                            <input class="input" type="text" v-model="email" placeholder="votre email" autofocus>
+                            </label>
+                        </div>
+                    </div> -->
+
+
+                    <!-- Slide partage -->
+
+                </transition>
+
+            </section>
+
+            <section name="controls">
+                <div class="btn-wrapper">
+                    <button v-if="i != 0" class="button" @click="i -=1">
+                        <span>Précédent</span>
+                    </button>
+                    <button v-if="i == 9 && q3 =='non' || i == 10" class="button" @click="formSubmit()">
+                        <span>Soumettre mes réponses &#8594;</span>
+                    </button>
+                    <button v-else class="button" @click="i +=1">
+                        <span v-if="i == 0">Participez &#8594;</span>
+                        <span v-else>Suivant &#8594;</span>
+                    </button>
+                </div>
+            </section>
+
+        </div>
+
+    </div>
+
+    <!-- Vue.js script -->
+    <script>
+        // import vueSlider from 'vue-slider-component'
+
+        const Child = {
+            template: `
+                <div class="field">
+                    <slot></slot>
+                </div>
+            `,
+            props: {
+                visible: {
+                    type: Boolean,
+                    default: () => false
+                }
+            }
+        }
+
+        var app = new Vue({
+            el: '#app',
+            data: {
+                i: 0,
+                t: 12, // correspond aux nombres de slides
+                q1: "entreprise",
+                // q3: 'oui',
+                q4: 0,
+                email: "",
+                entreprise: {
+                    q2: "commerce",
+                    q3: '',
+                    q4: 'non',
+                    q5: [] // multi select box values,
+                },
+                particulier: {
+                    q2: 'urbaine',
+                    q3: [],
+                    q4: "oui"
+                },
+                sliderOptions: {
+                    width: 280,
+                    height: 5,
+                    dotSize: 20,
+                    min: 1,
+                    max: 25,
+                    interval: 4,
+                    disabled: false,
+                    show: true,
+                    speed: 0.3,
+                    reverse: false,
+                    lazy: true,
+                    tooltip: "always",
+                    piecewise: true,
+                    tooltipStyle: {
+                        "backgroundColor": "#303030",
+                        "borderColor": "#303030"
+                    },
+                    processStyle: {
+                        "backgroundColor": "currentColor"
+                    }
+                }
+            },
+            components: {
+                'question': Child,
+                'vueSlider': window['vue-slider-component']
+            },
+            computed: {
+                progress() {
+                    return (this.i / this.t) * 100
+                },
+                stringify() {
+                    return this.form.options.toString(" ")
+                },
+                defisc() {
+                    return this.value * 0.4
+                }
+            },
+            methods: {
+                formSubmit() {
+                    var url = 'https://script.google.com/a/hec.edu/macros/s/AKfycbyxfnA-qitRSM9jyOXNoNKncPWrSEM4pqppLbbiLlvP4w_tmF2s/exec'
+                    var data = {}
+
+                    // define a form in the data and copy specific values from entreprise/particulier there
+                    // clean the data also, cf. stringify
+
+
+                    data.q1 = this.q1
+
+                    if (this.q1 == 'entreprise') {
+                        data.q2 = this.entreprise.q2
+                    }
+                    else {
+                        data.q2 = this.particulier.q2
+                    }
+
+                    // data.q3 = this.q3
+
+                    data.email = this.email
+
+                    // data.options = this.form.options.toString()
+
+                    // add form-specific values into the data
+                    data.formDataNameOrder = "['q1', 'q2', 'email' ]"
+                    data.formGoogleSheetName = "responses" // default sheet name
+                    data.formGoogleSendEmail = "" // no email by default
+
+                    console.log(data)
+
+                    var xhr = new XMLHttpRequest()
+                    xhr.open('POST', url)
+                    // xhr.withCredentials = true;
+                    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+                    xhr.onreadystatechange = function () {
+                        console.log(xhr.status, xhr.statusText)
+                        return
+                    }
+                    // url encode form data for sending as post data
+                    var encoded = Object.keys(data).map(function (k) {
+                        return encodeURIComponent(k) + '=' + encodeURIComponent(data[k])
+                    }).join('&')
+
+                    xhr.send(encoded)
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
