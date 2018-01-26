@@ -2,25 +2,25 @@
 <html>
 
 <head>
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="contact form example">
-    <title>De l'Art en Société</title>
-
-    <!-- CSS import -->
+    <meta name="description" content="openforart une plateforme où se rencontrent artistes et entreprises pour explorer de nouveaux modèles créatifs.">
+    <link rel="shortcut icon" href="./assets/img/favicon.png">
+    <title>openfor.art</title>
+    <meta name="keywords" content="Mécénat,Art,Artiste,Entreprise">
 
     <link rel="stylesheet" href="./assets/style.css">
 
-    <!-- <script src="https://unpkg.com/vue@2.5.9/dist/vue.min.js"></script> -->
-    <script src="https://unpkg.com/vue@2.5.9/dist/vue.js"></script>
-    <script src="https://nightcatsama.github.io/vue-slider-component/dist/index.js"></script>
+    <script src="https://unpkg.com/vue@2.5.9/dist/vue.min.js"></script>
+    <!-- <script src="https://unpkg.com/vue@2.5.9/dist/vue.js"></script> -->
 
-    <!-- Include after Vue -->
-    <!-- Local files -->
     <script src="./assets/vue-simple-progress.min.js"></script>
+    <script src="./assets/vee-validate.js"></script>
+    <script src="./assets/vue-slider-component.js"></script>
 
-    <!-- From CDN -->
-    <!-- <script src="https://unpkg.com/vue-scrollview"></script> -->
+    <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+
 
 </head>
 
@@ -31,311 +31,938 @@
 
         <div class="full">
 
-            <!-- Illustrations + encarts (disable on mobile ?) -->
-
-            <section name="illustrations">
-
-                <div class="box-1" v-bind:class="{ active: i == 1 }">
-                    <img src="./assets/img/cloud.jpg" style="max-width: 100%;">
-                    <div class="legende">Ana Rewakowicz - Green line project (2006)</div>
-                </div>
-
-                <div class="box-2" v-bind:class="{ active: i == 2 }">
-                    <img src="./assets/img/lehanneur.png" style="max-width: 100%;">
-                </div>
-
-                <div class="box-3" v-bind:class="{ active: i == 3 }">
-                    <img src="./assets/img/smogfree.jpg" style="max-width: 100%;">
-                </div>
-
-            </section>
-
-            <!-- Questions - depends on user type -->
+            <section name="illustrations"></section>
 
             <section name="questions">
 
-                <transition name="fade" mode="out-in">
+                <transition name="fade" mode="out-in" appear>
 
-                    <!-- Slide - home -->
+                    <!-- Slide - 1 -->
 
-                    <div class="itr-wrapper" v-if="i == 0" key="intro">
-                        <span>10</span> questions
-                        <br>sur l'art
-                        <br>en
-                        <span>société</span>
+                    <div class="sld-wrapper" v-if="i == 1" key="slide1">
+                        <transition name="fade-slow" mode="out-in">
+                            <div class="box-1 hide-m" v-if="a == 1" key="1">
+                                <img src="./assets/img/lehanneur.jpg" style="max-width: 100%;">
+                            </div>
+                            <div class="box-2 hide-m" v-if="a == 2" key="2">
+                                <img src="./assets/img/greenline.jpg" style="max-width: 100%;">
+                            </div>
+                            <div class="box-3 hide-m" v-if="a == 3" key="3">
+                                <img src="./assets/img/hyber.jpg" style="max-width: 100%;">
+                            </div>
+                        </transition>
+                        <div class="text">
+                            <div class="title">openfor<span style="color: blue; font-family: inherit; font-style:inherit; font-size:inherit;">.art</span>
+                                <br>une plateforme où se rencontrent
+                                <span>artistes</span> et
+                                <span>entreprises</span> pour explorer de nouveaux modèles créatifs.
+                            </div>
+                            <div class="legende hide-m">
+                                <transition name="fade-slow" mode="out-in">
+                                    <span v-if="a == 1" key="1">
+                                        Mathieu Lehanneur / Groupe hospitalier Diaconesses Croix Saint-Simon -
+                                        <span style="font-family: 'Junicode', serif;
+                                            font-style: italic; font-size:1.1em; display:inline-block; padding-left:20px;">Demain est un autre jour</span><span style="font-family: 'Junicode', serif;
+                                             font-size:1.1em;">, 2012</span>
+                                    </span>
+                                    <span v-else-if="a == 2" key="2">
+                                        Ana Rewakowicz / Plastiroll -
+                                        <span style="font-family: 'Junicode', serif;
+                                            font-style: italic; font-size:1.1em;">Green line project</span><span style="font-family: 'Junicode', serif;
+                                             font-size:1.1em;">, 2006</span>
+                                    </span>
+                                    <span v-else-if="a == 3" key="3">
+                                        Fabrice Hyber / Yves Saint Laurent Beauté -
+                                        <span style="font-family: 'Junicode', serif;
+                                            font-style: italic; font-size:1.1em;">1m3 de Beauté</span><span style="font-family: 'Junicode', serif;
+                                             font-size:1.1em;">, 2006</span>
+                                    </span>
+                                </transition>
+                            </div>
+                        </div>
                     </div>
 
-                    <!-- Slide - intro -->
 
-                    <!-- <div style="width:200px" v-if="i == 0" key="intro">
-                        <vue-slider v-model="q4" v-bind="sliderOptions"></vue-slider>
-                        <h1>{{ q4 }}</h1>
-                    </div> -->
-
-                    <div class="qst-wrapper" v-if="i == 1" key="q1">
-                        <label class="label">Vous êtes</label>
+                    <div class="qst-wrapper" v-if="i == 2" key="q1">
+                        <label class="label">
+                            Vous êtes</label>
                         <div class="control">
-                            <input type="radio" id="1" value="entreprise" v-model="q1">
-                            <label for="1">une entreprise</label>
-                            <br>
-                            <input type="radio" id="2" value="particulier" v-model="q1">
-                            <label for="2">un particulier</label>
+                            <div class="option">
+                                <input type="radio" @click="reset()" id="1" value="entreprise" v-model="q1">
+                                <label for="1">une entreprise</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" @click="reset()" id="2" value="architecte" v-model="q1">
+                                <label for="2">un architecte</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" @click="reset()" id="3" value="artisan" v-model="q1">
+                                <label for="3">un artisan d'art</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" @click="reset()" id="4" value="artiste" v-model="q1">
+                                <label for="4">un artiste</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" @click="reset()" id="5" value="designer" v-model="q1">
+                                <label for="5">un designer</label>
+                            </div>
                         </div>
                     </div>
 
                     <!-- Parcours entreprises -->
 
-                    <div class="qst-wrapper" v-if="i == 2 && q1 == 'entreprise'" key="q2">
-                        <label class="label">Quel est votre secteur d’activité ?</label>
+                    <div class="qst-wrapper" v-if="i == 3 && q1 == 'entreprise'" key="q2">
+                        <label class="label">
+                            Quel est votre secteur d’activité ?</label>
                         <div class="control">
-                            <input type="radio" id="1" value="commerce" v-model="entreprise.q2">
-                            <label for="1">Commerce</label>
-                            <br>
-                            <input type="radio" id="2" value="construction" v-model="entreprise.q2">
-                            <label for="2">Construction</label>
-                            <br>
-                            <input type="radio" id="3" value="industrie" v-model="entreprise.q2">
-                            <label for="3">Industrie</label>
-                            <br>
-                            <input type="radio" id="4" value="services" v-model="entreprise.q2">
-                            <label for="4">Services</label>
+                            <div class="option">
+                                <input type="radio" id="1" value="commerce" v-model="entreprise.q2">
+                                <label for="1">commerce</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" id="2" value="construction" v-model="entreprise.q2">
+                                <label for="2">construction</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" id="3" value="industrie" v-model="entreprise.q2">
+                                <label for="3">industrie</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" id="4" value="services" v-model="entreprise.q2">
+                                <label for="4">services</label>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="qst-wrapper" v-if="i == 3 && q1 == 'entreprise'" key="q3">
-                        <label class="label">Quelle est la taille de votre entreprise ?</label>
+                    <div class="qst-wrapper" v-if="i == 4 && q1 == 'entreprise'" key="q3">
+                        <label class="label">
+                            Quelle est la taille de votre entreprise ?</label>
                         <div class="control">
+                            <div class="option">
+                                <input type="radio" id="1" value="TPE" v-model="entreprise.q3">
+                                <label for="1">TPE</label>
+                            </div>
+                            <div class="option">
 
+                                <input type="radio" id="2" value="PME" v-model="entreprise.q3">
+                                <label for="2">PME</label>
+                            </div>
+                            <div class="option">
+                                <br>
+                                <input type="radio" id="3" value="GE" v-model="entreprise.q3">
+                                <label for="3">GE</label>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="qst-wrapper" v-if="i == 4 && q1 == 'entreprise'" key="q4">
-                        <label class="label">Menez-vous déjà des actions de mécénat culturel ?</label>
+                    <div class="qst-wrapper" v-if="i == 5 && q1 == 'entreprise'" key="q4">
+                        <label class="label">Quel est le lieu de votre activité ?</label>
                         <div class="control">
-                            <input type="radio" id="1" value="oui" v-model="entreprise.q4">
-                            <label for="1">oui</label>
-                            <br>
-                            <input type="radio" id="2" value="non" v-model="entreprise.q4">
-                            <label for="2">non</label>
+                            <div class="input--container">
+                                <span @mousedown.prevent="fade(4)" class="input--placeholder" v-bind:class="{ 'unactive' : edit.q4 }">
+                                    Ville, Code postal
+                                    <!-- <span class="note">Click to start typing.</span> -->
+                                </span>
+                                <editable id="editable" v-validate.initial="'required'" name="lieu" v-model="entreprise.q4" :content="entreprise.q4" @update="entreprise.q4 = $event"
+                                    v-bind:class="{ 'is-active' : edit.q4 }">
+                                </editable>
+                            </div>
+                            <span v-bind:class="{ 'active' : error }" class="error-message">Veuillez préciser un lieu</span>
+                        </div>
+                    </div>
+
+
+                    <div class="qst-wrapper" v-if="i == 6 && q1 == 'entreprise'" key="q5">
+                        <label class="label">
+                            Menez-vous déjà des actions de mécénat culturel ?</label>
+                        <div class="control">
+                            <div class="option">
+                                <input type="radio" id="1" value="oui" v-model="entreprise.q5">
+                                <label for="1">oui</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" id="2" value="non" v-model="entreprise.q5">
+                                <label for="2">non</label>
+                            </div>
                         </div>
                     </div>
 
                     <!-- Parcours entreprises / pas de mécénat -->
 
-                    <div class="qst-wrapper" v-if="i == 5 && q1 == 'entreprise' && entreprise.q4 =='non'" key="q5">
-                        <label class="label">Vous seriez prêts à soutenir des projets artistiques</label>
+                    <div class="qst-wrapper" v-if="i == 7 && q1 == 'entreprise'" key="q6">
+                        <label class="label">
+                            <span v-if="entreprise.q5 =='non'">Vous seriez prêts à soutenir des projets artistiques</span>
+                            <span v-else>Vous soutenez des projets artistiques</span>
+                        </label>
                         <div class="control">
-                            <input type="checkbox" id="1" value="entreprise" v-model="entreprise.q5">
-                            <label for="1">au sein de votre entreprise</label>
-                            <br>
-                            <input type="checkbox" id="2" value="espace public" v-model="entreprise.q5">
-                            <label for="2">dans l’espace public</label>
-                            <br>
-                            <input type="checkbox" id="3" value="institutions" v-model="entreprise.q5">
-                            <label for="3">au sein d'institutions culturelles</label>
-                            <br>
-                            <input type="checkbox" id="4" value="aucun" v-model="entreprise.q5">
-                            <label for="4">aucun</label>
+                            <div class="option">
+                                <input v-validate.initial="'required'" name="check_group" type="checkbox" id="1" value="entreprise" v-model="entreprise.q6">
+                                <label for="1">au sein de votre entreprise</label>
+                            </div>
+                            <div class="option">
+                                <input name="check_group" type="checkbox" id="2" value="espace public" v-model="entreprise.q6">
+                                <label for="2">dans l’espace public</label>
+                            </div>
+                            <div class="option">
+                                <input name="check_group" type="checkbox" id="3" value="institutions" v-model="entreprise.q6">
+                                <label for="3">au sein d'institutions culturelles</label>
+                            </div>
+                            <div class="option">
+                                <input name="check_group" type="checkbox" id="4" value="aucun" v-model="entreprise.q6">
+                                <label for="4">aucun</label>
+                            </div>
+                            <span v-bind:class="{ 'active' : error }" class="error-message">Sélectionnez une ou plusieurs réponses</span>
                         </div>
                     </div>
 
-                    <div class="qst-wrapper" v-if="i == 6 && q1 == 'entreprise' && entreprise.q4 =='non'" key="q6">
-                        <label class="label">Quelles contreparties souhaiteriez-vous obtenir ?</label>
+                    <div class="qst-wrapper" v-if="i == 8 && q1 == 'entreprise'" key="q7">
+                        <label class="label">
+                            <span v-if="entreprise.q5 =='non'">Quel budget annuel pouriez-vous engager ?</span>
+                            <span v-else>Quel budget annuel engagez-vous dans vos actions de mécénat ?</span>
+                            <div class="control">
+                                <vue-slider v-model="entreprise.q7" v-bind="sliderOptions"></vue-slider>
+                            </div>
+                            <div class="control" style="text-align:center; line-height: 1.3em;">Soit, après défiscalisation: {{ defisc }} €
+                                <br> pour un don effectué au profit d'une œuvre d’intérêt général
+                            </div>
+                    </div>
+
+                    <div class="qst-wrapper" v-if="i == 9 && q1 == 'entreprise'" key="q8">
+                        <label class="label">
+                            <span v-if="entreprise.q5 =='non'">Vous pourriez mettre à disposition</span>
+                            <span v-else>Que mettez-vous également à disposition ?</span>
+                        </label>
                         <div class="control">
-                            <textarea class="input" type="text" v-model="entreprise.q6" placeholder="cf. art & mondes du travail" autofocus></textarea>
-                            </label>
+                            <div class="option">
+                                <input v-validate.initial="'required'" name="check_group" type="checkbox" id="1" value="locaux" v-model="entreprise.q8">
+                                <label for="1">des locaux</label>
+                            </div>
+                            <div class="option">
+                                <input name="check_group" type="checkbox" id="2" value="competences" v-model="entreprise.q8">
+                                <label for="2">des compétences</label>
+                            </div>
+                            <div class="option">
+                                <input name="check_group" type="checkbox" id="3" value="materiaux" v-model="entreprise.q8">
+                                <label for="3">des matériaux</label>
+                            </div>
+                            <span v-bind:class="{ 'active' : error }" class="error-message">Sélectionnez une ou plusieurs réponses</span>
                         </div>
                     </div>
 
-                    <div class="qst-wrapper" v-if="i == 7 && q1 == 'entreprise' && entreprise.q4 =='non'" key="q7">
-                        <label class="label">Quel budget annuel pouriez-vous engager ?</label>
-                        <div class="control">
-
+                    <div class="qst-wrapper" v-if="i == 10 && q1 == 'entreprise'" key="q9">
+                        <label class="label">
+                            <span v-if="entreprise.q5 =='non'">Quels seraient les enjeux d'une collaboration entre un artiste et votre entreprise ?</span>
+                            <span v-else>Quels sont les enjeux d'une collaboration entre un artiste et votre entreprise ?</span>
+                        </label>
+                        <div class="control" style="flex-direction: column;
+                        align-items: center;">
+                            <div class="option">
+                                <input v-validate.initial="'required'" name="check_group" type="checkbox" id="1" value="identite" v-model="entreprise.q9">
+                                <label for="1">faire partager une expérience sensible à ses collaborateurs
+                                </label>
+                            </div>
+                            <div class="option">
+                                <input name="check_group" type="checkbox" id="2" value="innovation" v-model="entreprise.q9">
+                                <label for="2">promouvoir l'innovation d'un produit ou d'un matériau</label>
+                            </div>
+                            <div class="option">
+                                <input name="check_group" type="checkbox" id="3" value="cohesion" v-model="entreprise.q9">
+                                <label for="3">stimuler la cohésion interne autour d'un projet transversal</label>
+                            </div>
+                            <div class="option">
+                                <input name="check_group" type="checkbox" id="4" value="interet" v-model="entreprise.q9">
+                                <label for="4">contribuer à l’interêt général et construire des relations avec les acteurs du territoire</label>
+                            </div>
+                            <div class="option">
+                                <input name="check_group" type="checkbox" name="check_group" id="edit" :value="autre.q9" v-model="entreprise.q9">
+                                <label for="edit">
+                                    <span @click="check(9)" class="input--placeholder" v-bind:class="{ 'unactive' : edit.q9 }" style="border-bottom: none;">
+                                        autre
+                                    </span>
+                                    <editable id="editable" style="border-bottom: none;" :content="autre.q9" @update="autre.q9 = $event" v-bind:class="{ 'is-active' : edit.q9 }">
+                                    </editable>
+                                </label>
+                            </div>
+                            <span v-bind:class="{ 'active' : error }" class="error-message">Sélectionnez une ou plusieurs réponses</span>
                         </div>
                     </div>
 
-                    <div class="qst-wrapper" v-if="i == 8 && q1 == 'entreprise' && entreprise.q4 =='non'" key="q8">
-                        <label class="label">Seriez-vous prêts à faire du mécénat participatif aux côtés de citoyens ou d’autres entreprises ?</label>
+                    <div class="qst-wrapper" v-if="i == 11 && q1 == 'entreprise'" key="q10">
+                        <label class="label">
+                            <span v-if="entreprise.q5 =='non'">Sur quels critères porterait votre choix d'un projet artistique ?</span>
+                            <span v-else>Sur quels critères porte votre choix d'un projet artistique ?</span>
+                        </label>
                         <div class="control">
-                            <input class="input" type="text" v-model="entreprise.q6" placeholder="votre email" autofocus>
-                            </label>
+                            <div class="option">
+                                <input v-validate.initial="'required'" name="check_group" type="checkbox" id="1" value="identite" v-model="entreprise.q10">
+                                <label for="1">soutien à la jeune scène artistique</label>
+                            </div>
+                            <div class="option">
+                                <input name="check_group" type="checkbox" id="2" value="innovation" v-model="entreprise.q10">
+                                <label for="2">proximité géographique de l’artiste</label>
+                            </div>
+                            <div class="option">
+                                <input name="check_group" type="checkbox" id="3" value="cohesion" v-model="entreprise.q10">
+                                <label for="3">notoriété de l’artiste</label>
+                            </div>
+                            <div class="option">
+                                <input name="check_group" type="checkbox" id="4" value="lieu" v-model="entreprise.q10">
+                                <label for="4">proximité avec le champ esthétique de l’artiste</label>
+                            </div>
+                            <div class="option">
+                                <input name="check_group" type="checkbox" id="5" value="interet" v-model="entreprise.q10">
+                                <label for="5">durabilité de l’oeuvre</label>
+                            </div>
+                            <div class="option">
+                                <input name="check_group" type="checkbox" id="6" value="budget" v-model="entreprise.q10">
+                                <label for="6">budget</label>
+                            </div>
+                            <div class="option">
+                                <input name="check_group" type="checkbox" name="check_group" id="edit" :value="autre.q10" v-model="entreprise.q10">
+                                <label for="edit">
+                                    <span @click="check(10)" class="input--placeholder" v-bind:class="{ 'unactive' : edit.q10 }" style="border-bottom: none;">
+                                        autre
+                                    </span>
+                                    <editable id="editable" style="border-bottom: none;" :content="autre.q10" @update="autre.q10 = $event" v-bind:class="{ 'is-active' : edit.q10 }">
+                                    </editable>
+                                </label>
+                            </div>
+                            <span v-bind:class="{ 'active' : error }" class="error-message">Sélectionnez une ou plusieurs réponses</span>
                         </div>
                     </div>
 
-                    <div class="qst-wrapper" v-if="i == 9 && q1 == 'entreprise' && entreprise.q4 =='non'" key="q9">
-                        <label class="label">Vous pourriez mettre à disposition</label>
+                    <div class="qst-wrapper" v-if="i == 12 && q1 == 'entreprise'" key="q11">
+                        <label class="label">
+                            <span v-if="entreprise.q5 =='non'">Par quel(s) médium ou domaine seriez-vous interessé ?</span>
+                            <span v-else>Par quel(s) médium ou domaine êtes-vous interessé ?</span>
+                        </label>
                         <div class="control">
-                            <input class="input" type="text" v-model="entreprise.q6" placeholder="votre email" autofocus>
-                            </label>
+                            <div class="option">
+                                <input v-validate.initial="'required'" name="check_group" type="checkbox" id="1" value="architecture" v-model="entreprise.q11">
+                                <label for="1">architecture</label>
+                            </div>
+                            <div class="option">
+                                <input name="check_group" type="checkbox" id="2" value="art vidéo" v-model="entreprise.q11">
+                                <label for="2">art vidéo</label>
+                            </div>
+                            <div class="option">
+                                <input name="check_group" type="checkbox" id="3" value="arts sonores" v-model="entreprise.q11">
+                                <label for="3">arts sonores</label>
+                            </div>
+                            <div class="option">
+                                <input name="check_group" type="checkbox" id="4" value="cinéma" v-model="entreprise.q11">
+                                <label for="4">cinéma</label>
+                            </div>
+                            <div class="option">
+                                <input name="check_group" type="checkbox" id="5" value="danse" v-model="entreprise.q11">
+                                <label for="5">danse</label>
+                            </div>
+                            <div class="option">
+                                <input name="check_group" type="checkbox" id="6" value="design" v-model="entreprise.q11">
+                                <label for="6">design</label>
+                            </div>
+                            <div class="option">
+                                <input name="check_group" type="checkbox" id="7" value="dessin" v-model="entreprise.q11">
+                                <label for="7">dessin</label>
+                            </div>
+                            <div class="option">
+                                <input name="check_group" type="checkbox" id="8" value="graphisme" v-model="entreprise.q11">
+                                <label for="8">graphisme</label>
+                            </div>
+                            <div class="option">
+                                <input name="check_group" type="checkbox" id="9" value="littérature" v-model="entreprise.q11">
+                                <label for="9">littérature</label>
+                            </div>
+                            <div class="option">
+                                <input name="check_group" type="checkbox" id="10" value="mode" v-model="entreprise.q11">
+                                <label for="10">mode</label>
+                            </div>
+                            <div class="option">
+                                <input name="check_group" type="checkbox" id="11" value="musique" v-model="entreprise.q11">
+                                <label for="11">musique</label>
+                            </div>
+                            <div class="option">
+                                <input name="check_group" type="checkbox" id="12" value="peinture" v-model="entreprise.q11">
+                                <label for="12">peinture</label>
+                            </div>
+                            <div class="option">
+                                <input name="check_group" type="checkbox" id="13" value="performance" v-model="entreprise.q11">
+                                <label for="13">performance</label>
+                            </div>
+                            <div class="option">
+                                <input name="check_group" type="checkbox" id="14" value="photographie" v-model="entreprise.q11">
+                                <label for="14">photographie</label>
+                            </div>
+                            <div class="option">
+                                <input name="check_group" type="checkbox" id="15" value="sculpture" v-model="entreprise.q11">
+                                <label for="15">sculpture</label>
+                            </div>
+                            <div class="option">
+                                <input name="check_group" type="checkbox" name="check_group" id="edit" :value="autre.q11" v-model="entreprise.q11">
+                                <label for="edit">
+                                    <span @click="check(11)" class="input--placeholder" v-bind:class="{ 'unactive' : edit.q11 }" style="border-bottom: none;">
+                                        autre
+                                    </span>
+                                    <editable id="editable" style="border-bottom: none;" :content="autre.q11" @update="autre.q11 = $event" v-bind:class="{ 'is-active' : edit.q11 }">
+                                    </editable>
+                                </label>
+                            </div>
+                            <span v-bind:class="{ 'active' : error }" class="error-message">Sélectionnez un ou plusieurs domaines</span>
                         </div>
                     </div>
 
-                    <div class="qst-wrapper" v-if="i == 10 && q1 == 'entreprise' && entreprise.q4 =='non'" key="q10">
-                        <label class="label">Quelles contreparties souhaiteriez-vous obtenir ?</label>
-                        <div class="control">
-                            <textarea class="input" type="text" v-model="entreprise.q6" placeholder="cf. art et monde du travail" autofocus></textarea>
-                            </label>
+
+
+                    <!-- Parcours artistes -->
+
+                    <div class="qst-wrapper" v-if="i == 3 && q1 != 'entreprise'" key="q2">
+                        <label class="label">
+                            Quelle est votre domaine d'activité ?</label>
+                        <div class="control" v-if="q1 == 'architecte'">
+                            <div class="option">
+                                <input type="radio" v-validate.initial="'required'" name="radio_group" id="1" value="archi mo" v-model="artiste.q2">
+                                <label for="1">architecte maître d'œuvre</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" name="radio_group" id="2" value="archi int" v-model="artiste.q2">
+                                <label for="2">architecte d’intérieur</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" name="radio_group" id="3" value="urbaniste" v-model="artiste.q2">
+                                <label for="3">urbaniste</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" name="radio_group" id="4" value="paysagiste" v-model="artiste.q2">
+                                <label for="4">paysagiste</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" name="radio_group" id="edit" :value="autre.q2" v-model="artiste.q2">
+                                <label for="edit">
+                                    <span @click="check(2)" class="input--placeholder" v-bind:class="{ 'unactive' : edit.q2 }" style="border-bottom: none;">
+                                        autre
+                                    </span>
+                                    <editable id="editable" style="border-bottom: none;" :content="autre.q2" @update="autre.q2 = $event" v-bind:class="{ 'is-active' : edit.q2 }">
+                                    </editable>
+                                </label>
+                            </div>
+                            <span v-bind:class="{ 'active' : error }" class="error-message">Veuillez préciser un domaine</span>
+                        </div>
+                        <div class="control" v-if="q1 == 'artisan'">
+                            <div class="option">
+                                <input v-validate.initial="'required'" type="radio" name="radio_group" id="1" value="ceramique" v-model="artiste.q2">
+                                <label for="1">céramique</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" name="radio_group" id="2" value="textile" v-model="artiste.q2">
+                                <label for="2">textile</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" name="radio_group" id="3" value="gravure" v-model="artiste.q2">
+                                <label for="3">gravure</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" name="radio_group" id="edit" :value="autre.q2" v-model="artiste.q2">
+                                <label for="edit">
+                                    <span @click="check(2)" class="input--placeholder" v-bind:class="{ 'unactive' : edit.q2 }" style="border-bottom: none;">
+                                        autre
+                                    </span>
+                                    <editable id="editable" style="border-bottom: none;" :content="autre.q2" @update="autre.q2 = $event" v-bind:class="{ 'is-active' : edit.q2 }">
+                                    </editable>
+                                </label>
+                            </div>
+                            <span v-bind:class="{ 'active' : error }" class="error-message">Veuillez préciser un domaine</span>
+                        </div>
+                        <div class="control" v-if="q1 == 'artiste'">
+                            <div class="option">
+                                <input v-validate.initial="'required'" type="radio" name="radio_group" id="1" value="peinture" v-model="artiste.q2">
+                                <label for="1">peinture</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" name="radio_group" id="2" value="sculpture" v-model="artiste.q2">
+                                <label for="2">sculpture</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" name="radio_group" id="edit" :value="autre.q2" v-model="artiste.q2">
+                                <label for="edit">
+                                    <span @click="check(2)" class="input--placeholder" v-bind:class="{ 'unactive' : edit.q2 }" style="border-bottom: none;">
+                                        autre
+                                    </span>
+                                    <editable id="editable" style="border-bottom: none;" :content="autre.q2" @update="autre.q2 = $event" v-bind:class="{ 'is-active' : edit.q2 }">
+                                    </editable>
+                                </label>
+                            </div>
+                            <span v-bind:class="{ 'active' : error }" class="error-message">Veuillez préciser un domaine</span>
+                        </div>
+                        <div class="control" v-if="q1 == 'designer'">
+                            <div class="option">
+                                <input v-validate.initial="'required'" type="radio" name="radio_group" id="1" value="dsgn graphique" v-model="artiste.q2">
+                                <label for="1">design graphique</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" name="radio_group" id="2" value="dsgn produit" v-model="artiste.q2">
+                                <label for="2">design produit</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" name="radio_group" id="3" value="dsgn textile" v-model="artiste.q2">
+                                <label for="3">design textile</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" name="radio_group" id="4" value="dsgn espace" v-model="artiste.q2">
+                                <label for="4">design d'espace</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" name="radio_group" id="edit" :value="autre.q2" v-model="artiste.q2">
+                                <label for="edit">
+                                    <span @click="check(2)" class="input--placeholder" v-bind:class="{ 'unactive' : edit.q2 }" style="border-bottom: none;">
+                                        autre
+                                    </span>
+                                    <editable id="editable" style="border-bottom: none;" :content="autre.q2" @update="autre.q2 = $event" v-bind:class="{ 'is-active' : edit.q2 }">
+                                    </editable>
+                                </label>
+                            </div>
+                            <span v-bind:class="{ 'active' : error }" class="error-message">Veuillez préciser un domaine</span>
                         </div>
                     </div>
 
-                    <!-- Parcours entreprises / mécénat -->
-
-                    <div class="qst-wrapper" v-if="i == 5 && q1 == 'entreprise' && entreprise.q4 =='oui'" key="q5">
-                        <label class="label">mécénat !</label>
+                    <div class="qst-wrapper" v-if="i == 4 && q1 != 'entreprise'" key="q3">
+                        <label class="label">
+                            Quelle est votre formation ?</label>
                         <div class="control">
-                            <input type="radio" id="1" value="oui" v-model="entreprise.q4">
-                            <label for="1">oui</label>
-                            <br>
-                            <input type="radio" id="2" value="non" v-model="entreprise.q4">
-                            <label for="2">non</label>
+                            <div class="input--container">
+                                <span @click="fade(3)" class="input--placeholder" v-bind:class="{ 'unactive' : edit.q3 }">
+                                    Diplôme, École, Année
+                                    <!-- <span class="note">Click to start typing.</span> -->
+                                </span>
+                                <editable id="editable" :content="artiste.q3" @update="artiste.q3 = $event" v-bind:class="{ 'is-active' : edit.q3 }">
+                                </editable>
+                            </div>
+                            <!-- <span v-show="error" class="error-message">Veuillez préciser un lieu</span> -->
                         </div>
                     </div>
 
-                    <!-- Parcours particuliers -->
+                    <div class="qst-wrapper" v-if="i == 5 && q1 != 'entreprise'" key="q4">
+                        <label class="label">À quelle tranche d’âge appartenez-vous ?</label>
 
-                    <div class="qst-wrapper" v-if="i == 2 && q1 == 'particulier'" key="q2">
-                        <label class="label">Vous habitez en zone</label>
                         <div class="control">
-                            <input type="radio" id="1" value="urbaine" v-model="particulier.q2">
-                            <label for="1">urbaine</label>
-                            <br>
-                            <input type="radio" id="2" value="rurale" v-model="particulier.q2">
-                            <label for="2">rurale</label>
+                            <div class="option">
+                                <input type="radio" id="1" value="18-25" v-model="artiste.q4">
+                                <label for="1">18-25 ans</label>
+                            </div>
+                            <div class="option">
+
+                                <input type="radio" id="2" value="25-35" v-model="artiste.q4">
+                                <label for="2">25-35 ans</label>
+                            </div>
+                            <div class="option">
+                                <br>
+                                <input type="radio" id="3" value="> 35" v-model="artiste.q4">
+                                <label for="3">> 35 ans</label>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="qst-wrapper" v-if="i == 3 && q1 == 'particulier'" key="q3">
-                        <label class="label">Quels sont les lieux de vos activités culturelles ?</label>
+                    <div class="qst-wrapper" v-if="i == 6 && q1 != 'entreprise'" key="q5">
+                        <label class="label">
+                            Où habitez-vous ?</label>
                         <div class="control">
-                            <input type="checkbox" id="1" value="bibliotheque" v-model="particulier.q3">
-                            <label for="1">bibliothèques</label>
-                            <br>
-                            <input type="checkbox" id="2" value="espace public" v-model="particulier.q3">
-                            <label for="2">dans l’espace public</label>
-                            <br>
-                            <input type="checkbox" id="3" value="institutions" v-model="particulier.q3">
-                            <label for="3">au sein d'institutions culturelles</label>
-                            <br>
-                            <input type="checkbox" id="4" value="aucun" v-model="particulier.q3">
-                            <label for="4">aucun</label>
+                            <div class="input--container">
+                                <span @click="fade(5)" class="input--placeholder" v-bind:class="{ 'unactive' : edit.q5 }">
+                                    Ville, Code postal
+                                    <!-- <span class="note">Click to start typing.</span> -->
+                                </span>
+                                <editable id="editable" v-validate.initial="'required'" name="lieu" v-model="artiste.q5" :content="artiste.q5" @update="artiste.q5 = $event"
+                                    v-bind:class="{ 'is-active' : edit.q5 }">
+                                </editable>
+                            </div>
+                            <span v-bind:class="{ 'active' : error }" class="error-message">Veuillez préciser un lieu</span>
                         </div>
                     </div>
 
-                    <div class="qst-wrapper" v-if="i == 4 && q1 == 'particulier'" key="q4">
-                        <label class="label">Avez-vous déjà participé à des actions de mécénat culturel ?</label>
+                    <div class="qst-wrapper" v-if="i == 7 && q1 != 'entreprise'" key="q6">
+                        <label class="label">
+                            Vous avez déjà bénéficié de dispositifs d’aides à la création</label>
                         <div class="control">
-                            <input type="radio" id="1" value="urbaine" v-model="particulier.q4">
-                            <label for="1">oui</label>
-                            <br>
-                            <input type="radio" id="2" value="rurale" v-model="particulier.q4">
-                            <label for="2">non</label>
+                            <div class="option">
+                                <input v-validate.initial="'required'" name="check_group" type="checkbox" id="1" value="financiere" v-model="artiste.q6">
+                                <label for="1">financières</label>
+                            </div>
+                            <div class="option">
+                                <input name="check_group" type="checkbox" id="2" value="materielle" v-model="artiste.q6">
+                                <label for="2">matérielles</label>
+                            </div>
+                            <div class="option">
+                                <input name="check_group" type="checkbox" id="3" value="locaux" v-model="artiste.q6">
+                                <label for="3">mise à disposition de locaux</label>
+                            </div>
+                            <div class="option">
+                                <input name="check_group" type="checkbox" id="4" value="aucun" v-model="artiste.q6">
+                                <label for="4">aucun</label>
+                            </div>
+                            <span v-bind:class="{ 'active' : error }" class="error-message">Sélectionnez une ou plusieurs réponses</span>
                         </div>
                     </div>
+
+                    <div class="qst-wrapper" v-if="i == 8 && q1 != 'entreprise'" key="q7">
+                        <label class="label">
+                            Avez-vous déjà collaboré avec des entreprises ?</label>
+                        <div class="control">
+                            <div class="option">
+                                <input type="radio" id="1" value="oui" v-model="artiste.q7">
+                                <label for="1">oui</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" id="2" value="non" v-model="artiste.q7">
+                                <label for="2">non</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="qst-wrapper" v-if="i == 9 && q1 != 'entreprise'" key="q8">
+                        <label class="label">
+                            <span v-if="artiste.q7 =='non'">Vous seriez prêts à travailler sur des projets artistiques</span>
+                            <span v-else>Vous avez travaillé sur des projets artistiques</span>
+                        </label>
+                        <div class="control">
+                            <div class="option">
+                                <input v-validate.initial="'required'" name="check_group" type="checkbox" id="1" value="entreprise" v-model="artiste.q8">
+                                <label for="1">au sein d'entreprises</label>
+                            </div>
+                            <div class="option">
+                                <input name="check_group" type="checkbox" id="2" value="espace public" v-model="artiste.q8">
+                                <label for="2">soutenus par des entreprises dans l'espace public</label>
+                            </div>
+                            <div class="option">
+                                <input name="check_group" type="checkbox" id="3" value="institutions" v-model="artiste.q8">
+                                <label for="3">soutenus par des entreprises au sein d'institutions culturelles</label>
+                            </div>
+                            <div class="option">
+                                <input name="check_group" type="checkbox" id="4" value="aucun" v-model="artiste.q8">
+                                <label for="4">aucun</label>
+                            </div>
+                            <span v-bind:class="{ 'active' : error }" class="error-message">Sélectionnez une ou plusieurs réponses</span>
+                        </div>
+                    </div>
+
+                    <div class="qst-wrapper" v-if="i == 10 && q1 != 'entreprise'" key="q9">
+                        <label class="label">
+                            <span v-if="artiste.q7 =='non'">Quels seraient les enjeux d’une collaboration avec une entreprise ?</span>
+                            <span v-else>Quels sont les enjeux d’une collaboration avec une entreprise ?</span>
+                        </label>
+                        <div class="control">
+                            <div class="option">
+                                <input v-validate="'required'" name="check_group" type="checkbox" id="1" value="financier" v-model="artiste.q9">
+                                <label for="1">soutien financier</label>
+                            </div>
+                            <div class="option">
+                                <input name="check_group" type="checkbox" id="2" value="lieu expo" v-model="artiste.q9">
+                                <label for="2">lieu d’exposition</label>
+                            </div>
+                            <div class="option">
+                                <input name="check_group" type="checkbox" id="3" value="résidence" v-model="artiste.q9">
+                                <label for="3">lieu de résidence</label>
+                            </div>
+                            <div class="option">
+                                <input name="check_group" type="checkbox" id="4" value="materiaux innovants" v-model="artiste.q9">
+                                <label for="4">médium ou matériaux innovants</label>
+                            </div>
+                            <div class="option">
+                                <input name="check_group" type="checkbox" name="check_group" id="edit" :value="autre.q9" v-model="artiste.q9">
+                                <label for="edit">
+                                    <span @click="check(9)" class="input--placeholder" v-bind:class="{ 'unactive' : edit.q9 }" style="border-bottom: none;">
+                                        autre
+                                    </span>
+                                    <editable id="editable" style="border-bottom: none;" :content="autre.q9" @update="autre.q9 = $event" v-bind:class="{ 'is-active' : edit.q9 }">
+                                    </editable>
+                                </label>
+                            </div>
+                            <span v-bind:class="{ 'active' : error }" class="error-message">Sélectionnez une ou plusieurs réponses</span>
+                        </div>
+                    </div>
+
+                    <div class="qst-wrapper" v-if="i == 11 && q1 != 'entreprise'" key="q10">
+                        <label class="label">
+                            <span v-if="artiste.q7 =='non'">Sur quels critères porterait votre choix d'une entreprise ?</span>
+                            <span v-else>Sur quels critères porte votre choix d'une entreprise ?</span>
+                        </label>
+                        <div class="control">
+                            <div class="option">
+                                <input v-validate.initial="'required'" name="check_group" type="checkbox" id="1" value="identite" v-model="artiste.q10">
+                                <label for="1">proximité géographique de l’entreprise</label>
+                            </div>
+                            <div class="option">
+                                <input name="check_group" type="checkbox" id="2" value="innovation" v-model="artiste.q10">
+                                <label for="2">taille de l’entreprise</label>
+                            </div>
+                            <div class="option">
+                                <input name="check_group" type="checkbox" id="3" value="cohesion" v-model="artiste.q10">
+                                <label for="3">proximité avec le secteur d’activité de l’entreprise</label>
+                            </div>
+                            <div class="option">
+                                <input name="check_group" type="checkbox" id="4" value="lieu" v-model="artiste.q10">
+                                <label for="4">liberté d’exécution</label>
+                            </div>
+                            <div class="option">
+                                <input name="check_group" type="checkbox" name="check_group" id="edit" :value="autre.q10" v-model="artiste.q10">
+                                <label for="edit">
+                                    <span @click="check(10)" class="input--placeholder" v-bind:class="{ 'unactive' : edit.q10 }" style="border-bottom: none;">
+                                        autre
+                                    </span>
+                                    <editable id="editable" style="border-bottom: none;" :content="autre.q10" @update="autre.q10 = $event" v-bind:class="{ 'is-active' : edit.q10 }">
+                                    </editable>
+                                </label>
+                            </div>
+                            <span v-bind:class="{ 'active' : error }" class="error-message">Sélectionnez une ou plusieurs réponses</span>
+                        </div>
+                    </div>
+
+                    <div class="qst-wrapper" v-if="i == 12 && q1 != 'entreprise'" key="q11">
+                        <label class="label">
+                            <span v-if="artiste.q7 =='non'">Par quel(s) secteur(s) d’activité seriez-vous intéressé en particulier ?</span>
+                            <span v-else>Par quel(s) secteur(s) d’activité êtes-vous intéressé en particulier ?</span>
+                        </label>
+                        <div class="control">
+                            <div class="option">
+                                <input v-validate.initial="'required'" name="check_group" type="checkbox" id="1" value="commerce" v-model="artiste.q11">
+                                <label for="1">commerce</label>
+                            </div>
+                            <div class="option">
+                                <input name="check_group" type="checkbox" id="2" value="construction" v-model="artiste.q11">
+                                <label for="2">construction</label>
+                            </div>
+                            <div class="option">
+                                <input name="check_group" type="checkbox" id="3" value="industrie" v-model="artiste.q11">
+                                <label for="3">industrie</label>
+                            </div>
+                            <div class="option">
+                                <input name="check_group" type="checkbox" id="4" value="services" v-model="artiste.q11">
+                                <label for="4">services</label>
+                            </div>
+                            <span v-bind:class="{ 'active' : error }" class="error-message">Sélectionnez une ou plusieurs réponses</span>
+                        </div>
+                    </div>
+
 
                     <!-- Question finale -->
 
-                    <!-- <div class="qst-wrapper" v-if="i == 3" key="q3">
-                        <label class="label">Souhaitez-vous être tenu au courant des résultats de l'étude ?</label>
+                    <div class="qst-wrapper" v-if="i == 13" key="q12">
+                        <label class="label">Souhaitez-vous faire partie des premiers utilisateurs de la plateforme ?</label>
                         <div class="control">
-                            <input type="radio" id="1" value="oui" v-model="q3">
-                            <label for="1">Oui</label>
-                            <br>
-                            <input type="radio" id="2" value="non" v-model="q3">
-                            <label for="2">Non merci</label>
+                            <div class="option">
+                                <input type="radio" id="1" value="oui" v-model="q12">
+                                <label for="1">oui</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" id="2" value="non" v-model="q12">
+                                <label for="2">non</label>
+                            </div>
                         </div>
-                    </div> -->
+                    </div>
 
-                    <!-- Si email, sinon popup -->
+                    <!-- Si email -->
 
-                    <!-- <div class="qst-wrapper" v-if="i == 4 && q3 == 'oui'" key="q3">
+                    <div class="qst-wrapper" v-if="i == 14 && q12 == 'oui'" key="q14">
                         <label class="label">À quelle adresse vous écrire ?</label>
                         <div class="control">
-                            <input class="input" type="text" v-model="email" placeholder="votre email" autofocus>
-                            </label>
+                            <div class="input--container">
+                                <span @click="fade(14)" class="input--placeholder" v-bind:class="{ 'unactive' : edit.q14 }">
+                                    email@company.com
+                                    <!-- <span class="note">Click to start typing.</span> -->
+                                </span>
+                                <editable id="editable" v-validate.initial="'required|email'" name="email" v-model="email" :content="email" @update="email = $event"
+                                    v-bind:class="{ 'is-active' : edit.q14 }">
+                                </editable>
+                            </div>
+                            <span v-bind:class="{ 'active' : error }" class="error-message">Veuillez saisir une adresse email valide</span>
                         </div>
-                    </div> -->
+                    </div>
 
 
-                    <!-- Slide partage -->
+                    <!-- Slide - Fin - Remercienment + partage -->
 
-                </transition>
+                    <div class="sld-wrapper" v-if="i == 15" key="fin">
+                            <transition name="fade-slow" mode="out-in">
+                                    <div class="box-1 hide-m" v-if="a == 1" key="1">
+                                        <img src="./assets/img/lehanneur.jpg" style="max-width: 100%;">
+                                    </div>
+                                    <div class="box-2 hide-m" v-if="a == 2" key="2">
+                                        <img src="./assets/img/greenline.jpg" style="max-width: 100%;">
+                                    </div>
+                                    <div class="box-3 hide-m" v-if="a == 3" key="3">
+                                        <img src="./assets/img/hyber.jpg" style="max-width: 100%;">
+                                    </div>
+                                </transition>
+                        <div class="text">
+                            <div class="title" style="text-transform:none;">merci, vos réponses ont bien été enregistrées.</div>
+                            <div class="share">
+                                <div>
+                                    <button class="button" @click="share = !share">Partager &#8599;</button>
+                                    <span class="share-links" :class="{active: share}">
+                                            <a href="mailto:?subject=Openforart&amp;body=Openforart, une plateforme où se rencontrent artistes et entreprises pour explorer de nouveaux modèles créatifs: http://www.form.quentinmaniguet.com"
+                                            title="Share by Email">
+                                           e-mail
+                                         </a>
+                                         <a href="https://www.facebook.com/sharer/sharer.php?u=form.quentinmaniguet.com">facebook</a>
+                                      </a>
+                                   <a href="https://www.linkedin.com/shareArticle?mini=true&url=form.quentinmaniguet.com&title=Open%20for%20art&summary=une%20plateforme%20o%C3%B9%20se%20rencontrent%20artistes%20et%20entreprises%20pour%20explorer%20de%20nouveaux%20mod%C3%A8les%20cr%C3%A9atifs&source=">linkedIn</a>
+                                    </span>
+                                </div>
+                                <div>
+                                    <button class="button" @click="restart()">Recommencer &#8634;</button>
+                                </div>
+                            </div>
+                            <div class="legende hide-m">
+                                    <transition name="fade-slow" mode="out-in">
+                                        <span v-if="a == 1" key="1">
+                                            Mathieu Lehanneur / Groupe hospitalier Diaconesses Croix Saint-Simon -
+                                            <span style="font-family: 'Junicode', serif;
+                                                font-style: italic; font-size:1.1em; display:inline-block; padding-left:20px;">Demain est un autre jour</span>
+                                            <span style="font-family: 'Junicode', serif;
+                                                 font-size:1.1em;">, 2012</span>
+                                        </span>
+                                        <span v-else-if="a == 2" key="2">
+                                            Ana Rewakowicz / Plastiroll -
+                                            <span style="font-family: 'Junicode', serif;
+                                                font-style: italic; font-size:1.1em;">Green line project</span>
+                                            <span style="font-family: 'Junicode', serif;
+                                                 font-size:1.1em;">, 2006</span>
+                                        </span>
+                                        <span v-else-if="a == 3" key="3">
+                                            Fabrice Hyber / Yves Saint Laurent Beauté -
+                                            <span style="font-family: 'Junicode', serif;
+                                                font-style: italic; font-size:1.1em;">1m3 de Beauté</span>
+                                            <span style="font-family: 'Junicode', serif;
+                                                 font-size:1.1em;">, 2006</span>
+                                        </span>
+                                    </transition>
+                                </div>
+                        </div>
+                    </div>
+        </div>
 
-            </section>
+        </transition>
 
-            <section name="controls">
-                <div class="btn-wrapper">
-                    <button v-if="i != 0" class="button" @click="i -=1">
-                        <span>Précédent</span>
+        </section>
+
+        <nav name="controls">
+            <div class="btn-wrapper">
+
+                <div v-if="i != 0 && i !=1" class="btn-left">
+                    <a href="#" id="prev" v-if="i < 13 || i == 13 && q12 =='oui'" @click="prev()" class="prev left">
+                        <span></span>
+                    </a>
+                </div>
+
+                <div v-if="i != 17" class="btn-right">
+                    <!-- Transition -->
+                    <button v-if="i == 1" class="button" @click="i +=1">
+                        <span>Quelle sera votre rencontre ? &#8594;</span>
                     </button>
-                    <button v-if="i == 9 && q3 =='non' || i == 10" class="button" @click="formSubmit()">
+                    <button v-else-if="i == 13 && q12 =='non' || i == 14" class="button" @click="formSubmit()">
                         <span>Soumettre mes réponses &#8594;</span>
                     </button>
-                    <button v-else class="button" @click="i +=1">
-                        <span v-if="i == 0">Participez &#8594;</span>
-                        <span v-else>Suivant &#8594;</span>
-                    </button>
+                    <a v-else-if="i < 15" href="#" id="next" @click="next()" class="next right">
+                        <span></span>
+                    </a>
                 </div>
-            </section>
 
-        </div>
+
+                <!-- <span class="nav--note" v-if="i != 0 && i<=13 ">ou appuyer
+                        <br>sur entrée
+                    </span> -->
+            </div>
+        </nav>
 
     </div>
 
-    <!-- Vue.js script -->
-    <script>
-        // import vueSlider from 'vue-slider-component'
+    </div>
 
-        const Child = {
-            template: `
-                <div class="field">
-                    <slot></slot>
-                </div>
-            `,
-            props: {
-                visible: {
-                    type: Boolean,
-                    default: () => false
+    <script>
+
+        Vue.component('editable', {
+            template: '<span class="input--span single-line" contenteditable="true" @input="update"></span>',
+            props: ['content'],
+            mounted: function () {
+                this.$el.innerText = this.content;
+            },
+            methods: {
+                update: function (event) {
+                    this.$emit('update', event.target.innerText);
                 }
             }
-        }
+        })
+
+        Vue.use(VeeValidate);
 
         var app = new Vue({
             el: '#app',
             data: {
-                i: 0,
-                t: 12, // correspond aux nombres de slides
-                q1: "entreprise",
-                // q3: 'oui',
-                q4: 0,
-                email: "",
+                i: 1,
+                t: 14, // correspond aux nombres de slides
+                a: 1,
+                edit: {
+                    q2: false,
+                    q3: false,
+                    q4: false,
+                    q5: false,
+                    q9: false,
+                    q10: false,
+                    q11: false,
+                    q14: false
+                },
+                autre: {
+                    q2: '',
+                    q9: '',
+                    q10: '',
+                    q11: ''
+                },
+                error: false,
+                share: false,
+                q1: 'entreprise',
                 entreprise: {
-                    q2: "commerce",
+                    q2: 'commerce',
+                    q3: 'PME',
+                    q4: '',
+                    q5: 'non',
+                    q6: [],
+                    q7: '5000',
+                    q8: [],
+                    q9: [],
+                    q10: [],
+                    q11: []
+                },
+                artiste: {
+                    q2: [],
                     q3: '',
-                    q4: 'non',
-                    q5: [] // multi select box values,
+                    q4: '25-35',
+                    q5: '',
+                    q6: [],
+                    q7: 'non',
+                    q8: [],
+                    q9: [],
+                    q10: [],
+                    q11: []
                 },
-                particulier: {
-                    q2: 'urbaine',
-                    q3: [],
-                    q4: "oui"
-                },
+                q12: 'oui',
+                email: '',
                 sliderOptions: {
-                    width: 280,
-                    height: 5,
+                    width: '100%',
+                    height: 2,
                     dotSize: 20,
-                    min: 1,
-                    max: 25,
-                    interval: 4,
+                    min: 0,
+                    max: 50000,
+                    interval: 500,
                     disabled: false,
                     show: true,
                     speed: 0.3,
                     reverse: false,
-                    lazy: true,
+                    lazy: false,
+                    formatter: "{value} €",
                     tooltip: "always",
-                    piecewise: true,
+                    piecewise: false,
                     tooltipStyle: {
-                        "backgroundColor": "#303030",
-                        "borderColor": "#303030"
+                        "backgroundColor": "none",
+                        "borderColor": "none"
                     },
                     processStyle: {
                         "backgroundColor": "currentColor"
@@ -343,65 +970,128 @@
                 }
             },
             components: {
-                'question': Child,
                 'vueSlider': window['vue-slider-component']
             },
+            created: function () {
+                window.addEventListener('keyup', this.keyPressed);
+                setInterval(this.interval, 10 * 1000);
+            },
             computed: {
-                progress() {
-                    return (this.i / this.t) * 100
+                progress: function () {
+                    return ((this.i - 1) / this.t) * 100;
                 },
-                stringify() {
-                    return this.form.options.toString(" ")
-                },
-                defisc() {
-                    return this.value * 0.4
+                defisc: function () {
+                    return this.entreprise.q7 * 0.4;
                 }
             },
             methods: {
-                formSubmit() {
-                    var url = 'https://script.google.com/a/hec.edu/macros/s/AKfycbyxfnA-qitRSM9jyOXNoNKncPWrSEM4pqppLbbiLlvP4w_tmF2s/exec'
-                    var data = {}
+                prev: function () {
+                    this.i -= 1;
+                },
+                next: function () {
+                    var self = this;
+                    self.$validator.validateAll().then(function (result) {
+                        if (result) {
+                            self.error = false;
+                            self.i += 1;
+                            return;
+                        }
+                        self.error = true;
+                    });
+                },
+                restart: function () {
+                    window.location.reload();
+                },
+                reset: function () {
+                    // reset all autre  
+                    this.autre.q2 = '';
+                    this.autre.q9 = '';
+                    this.autre.q10 = '';
+                    this.autre.q11 = '';
 
-                    // define a form in the data and copy specific values from entreprise/particulier there
+                    // reset all autre 
+                    this.edit.q2 = false;
+                    this.edit.q3 = false;
+                    this.edit.q4 = false;
+                    this.edit.q5 = false;
+                    this.edit.q9 = false;
+                    this.edit.q10 = false;
+                    this.edit.q11 = false;
+                    this.edit.q14 = false;
+
+                    // needed ?
+                    this.artiste.q2 = [];
+                    this.email = '';
+                },
+                fade: function (n) {
+                    // e.preventDefault()
+                    this.edit['q' + n] = true;
+                    document.getElementById('editable').focus();
+                },
+                check: function (n) {
+                    this.edit['q' + n] = true
+                    document.getElementById('editable').focus();
+                    document.getElementById('edit').checked = true;
+                },
+                interval: function () {
+                    this.a = Math.floor(Math.random() * 3) + 1;
+                },
+                keyPressed: function (e) {
+                    // if (e.which === 13) {
+                    //     e.preventDefault();
+                    //     this.next();
+                    // }
+                    if (e.which === 37) {
+                        this.prev()
+                    }
+                    if (e.which === 39) {
+                        this.next()
+                    }
+                },
+                formSubmit: function () {
+
+                    var url = 'https://script.google.com/macros/s/AKfycby7egpmr7D7NvLOdwjED8d1O9iIzBlSHT6Ql3VSkQy-vApydJiP/exec';
+                    var data = {};
+
+                    // define a form in the data and copy specific values from entreprise/artiste there
                     // clean the data also, cf. stringify
 
-
-                    data.q1 = this.q1
+                    data.q1 = this.q1;
 
                     if (this.q1 == 'entreprise') {
-                        data.q2 = this.entreprise.q2
-                    }
+                        Object.assign(data, this.entreprise);
+					 }
                     else {
-                        data.q2 = this.particulier.q2
+                        Object.assign(data, this.artiste);
                     }
 
-                    // data.q3 = this.q3
-
-                    data.email = this.email
+                    data.email = this.email;
 
                     // data.options = this.form.options.toString()
 
                     // add form-specific values into the data
-                    data.formDataNameOrder = "['q1', 'q2', 'email' ]"
-                    data.formGoogleSheetName = "responses" // default sheet name
-                    data.formGoogleSendEmail = "" // no email by default
+                    data.formDataNameOrder = "['email','q1','q2','q3','q4','q5','q6','q7','q8','q9','q10','q11']";
+                    data.formGoogleSheetName = "responses"; // default sheet name
+                    data.formGoogleSendEmail = ""; // no email by default
 
-                    console.log(data)
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('POST', url);
 
-                    var xhr = new XMLHttpRequest()
-                    xhr.open('POST', url)
-                    // xhr.withCredentials = true;
-                    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
-                    xhr.onreadystatechange = function () {
-                        console.log(xhr.status, xhr.statusText)
-                        return
-                    }
+                    xhr.withCredentials = true;
+
+
+                    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                    // xhr.onreadystatechange = function () {
+                    //     return
+                    // }
                     // url encode form data for sending as post data
                     var encoded = Object.keys(data).map(function (k) {
-                        return encodeURIComponent(k) + '=' + encodeURIComponent(data[k])
+                        return encodeURIComponent(k) + '=' + encodeURIComponent(data[k]);
                     }).join('&')
 
-                    xhr.send(encoded)
+                    xhr.send(encoded);
+
+                    this.i = 15;
                 }
             }
         })
